@@ -21,7 +21,7 @@ var styles = {
     'geoMarker': new Style({
         image: new CircleStyle({
             radius: 7,
-            fill: new Fill({color: 'black'}),
+            fill: new Fill({color: 'green'}),
             stroke: new Stroke({
                 color: 'white', width: 2
             })
