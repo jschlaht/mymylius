@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mylius Spuren Homepage{% endblock %}
+
+{% block map %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="item" id="map" style="width: auto; height: 600px"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        var map = L.map('map').setView([50.1109221, 8.6821267], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        {% for point in mapData %}
+
+            L.marker([{{ point.lat }},{{ point.lng }}]).addTo(map)
+                .bindPopup('{{ point.title }}')
+                ;
+
+        {% endfor %}
+
+    </script>
+
+
+{% endblock %}
