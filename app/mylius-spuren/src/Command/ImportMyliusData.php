@@ -44,7 +44,7 @@ class ImportMyliusData extends Command
 
         $row = 1;
         if (($handle = fopen($input->getArgument('filename'), "r")) !== FALSE) {
-            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
                 $num = count($data);
                 echo "$num Felder in Zeile $row:\n";
                 if ($row > 1) {
@@ -86,12 +86,16 @@ class ImportMyliusData extends Command
         $mylius->setNewImage($data[3] == 'ja' ? true : false);
         $mylius->setObjectType($data[1]);
         $mylius->setTitleCollection($data[18]);
-        if (!empty($data[6])) {
-            $mylius->setYearBegin($date = DateTime::createFromFormat('Y', $data[6]));
-        }
-        if (!empty($data[7])) {
-            $mylius->setYearEnd($date = DateTime::createFromFormat('Y', $data[7]));
-        }
+        $mylius->setYearBegin($data[6]);
+        $mylius->setYearEnd($data[7]);
+
+
+        $mylius->setSize($data[11]);
+        $mylius->setSource($data[14]);
+        $mylius->setMaterial($data[12]);
+        $mylius->setLabeling($data[13]);
+        $mylius->setCollection($data[15]);
+        $mylius->setLocation($data[16]);
 
         $this->entityManager->persist($mylius);
     }

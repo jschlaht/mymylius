@@ -23,7 +23,7 @@
         {% for point in mapData %}
 
             L.marker([{{ point.lat }},{{ point.lng }}]).addTo(map)
-                .bindPopup('{{ point.title }}')
+                .bindPopup('<a href="{{ path("mylius-detail", {"id":point.id}) }}">{{ point.title }} <br/> <img src="/images/mylius/{{ point.image }}" width="200px"/></a>')
                 ;
 
         {% endfor %}

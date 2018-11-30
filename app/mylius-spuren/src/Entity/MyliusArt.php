@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -39,15 +41,10 @@ class MyliusArt
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $newImageName;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
     private $yearBegin;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $yearEnd;
 
@@ -70,6 +67,36 @@ class MyliusArt
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $size;
+
+    /**
+     * @ORM\Column(type="text", length=255)
+     */
+    private $material;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $labeling;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $source;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $collection;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $location;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -105,6 +132,16 @@ class MyliusArt
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $newImageAuthorName;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MyliusLink", mappedBy="myliusart", orphanRemoval=true)
+     */
+    private $myliusLinks;
+
+    public function __construct()
+    {
+        $this->myliusLinks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -159,36 +196,24 @@ class MyliusArt
         return $this;
     }
 
-    public function getNewImageName(): ?string
-    {
-        return $this->newImageName;
-    }
-
-    public function setNewImageName(?string $newImageName): self
-    {
-        $this->newImageName = $newImageName;
-
-        return $this;
-    }
-
-    public function getYearBegin(): ?\DateTimeInterface
+    public function getYearBegin(): ?string
     {
         return $this->yearBegin;
     }
 
-    public function setYearBegin(\DateTimeInterface $yearBegin): self
+    public function setYearBegin(string $yearBegin): self
     {
         $this->yearBegin = $yearBegin;
 
         return $this;
     }
 
-    public function getYearEnd(): ?\DateTimeInterface
+    public function getYearEnd(): ?string
     {
         return $this->yearEnd;
     }
 
-    public function setYearEnd(\DateTimeInterface $yearEnd): self
+    public function setYearEnd(string $yearEnd): self
     {
         $this->yearEnd = $yearEnd;
 
@@ -242,6 +267,115 @@ class MyliusArt
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+    /**
+     * @param mixed $size
+     * @return MyliusArt
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMaterial()
+    {
+        return $this->material;
+    }
+
+    /**
+     * @param mixed $material
+     * @return MyliusArt
+     */
+    public function setMaterial($material)
+    {
+        $this->material = $material;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLabeling()
+    {
+        return $this->labeling;
+    }
+
+    /**
+     * @param mixed $labeling
+     * @return MyliusArt
+     */
+    public function setLabeling($labeling)
+    {
+        $this->labeling = $labeling;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
+     * @param mixed $source
+     * @return MyliusArt
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCollection()
+    {
+        return $this->collection;
+    }
+
+    /**
+     * @param mixed $collection
+     * @return MyliusArt
+     */
+    public function setCollection($collection)
+    {
+        $this->collection = $collection;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param mixed $location
+     * @return MyliusArt
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+        return $this;
+    }
+
 
     public function getTitleCollection(): ?string
     {
@@ -323,6 +457,37 @@ class MyliusArt
     public function setNewImageAuthorName(?string $newImageAuthorName): self
     {
         $this->newImageAuthorName = $newImageAuthorName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MyliusLink[]
+     */
+    public function getMyliusLinks(): Collection
+    {
+        return $this->myliusLinks;
+    }
+
+    public function addMyliusLink(MyliusLink $myliusLink): self
+    {
+        if (!$this->myliusLinks->contains($myliusLink)) {
+            $this->myliusLinks[] = $myliusLink;
+            $myliusLink->setMyliusart($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMyliusLink(MyliusLink $myliusLink): self
+    {
+        if ($this->myliusLinks->contains($myliusLink)) {
+            $this->myliusLinks->removeElement($myliusLink);
+            // set the owning side to null (unless already changed)
+            if ($myliusLink->getMyliusart() === $this) {
+                $myliusLink->setMyliusart(null);
+            }
+        }
 
         return $this;
     }

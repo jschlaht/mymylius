@@ -23,8 +23,10 @@ class HomepageController extends AbstractController
         foreach ($data as $item) {
             if (!empty($item->getLatitude())) {
                 $mapPoints[] = [
+                    'id' => $item->getId(),
                     'lat' => $item->getLatitude(),
                     'lng' => $item->getLongitude(),
+                    'image' => $item->getInventarNumber() . '_001.jpg',
                     'title' => $item->getTitleCollection()];
             }
         }
