@@ -138,9 +138,15 @@ class MyliusArt
      */
     private $myliusLinks;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MyliusLink", mappedBy="relation")
+     */
+    private $myliusLinks2;
+
     public function __construct()
     {
         $this->myliusLinks = new ArrayCollection();
+        $this->myliusLinks2 = new ArrayCollection();
     }
 
     public function getId(): ?int

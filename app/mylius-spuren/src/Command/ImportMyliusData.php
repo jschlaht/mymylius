@@ -2,6 +2,7 @@
 namespace App\Command;
 
 use App\Entity\MyliusArt;
+use App\Entity\MyliusLink;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -96,6 +97,30 @@ class ImportMyliusData extends Command
         $mylius->setLabeling($data[13]);
         $mylius->setCollection($data[15]);
         $mylius->setLocation($data[16]);
+
+        if (!empty($data[22])) {
+            $url = new MyliusLink();
+
+            $url->setUrl($data[22]);
+            $url->setCreated(new DateTime());
+            $url->getComment($data[2]);
+
+            $this->entityManager->persist($url);
+
+            $mylius->addMyliusLink($url);
+        }
+
+        if (!empty($data[23])) {
+            $url = new MyliusLink();
+
+            $url->setUrl($data[23]);
+            $url->setCreated(new DateTime());
+            $url->getComment($data[2]);
+
+            $this->entityManager->persist($url);
+
+            $mylius->addMyliusLink($url);
+        }
 
         $this->entityManager->persist($mylius);
     }
