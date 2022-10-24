@@ -15,3 +15,10 @@
 ###> symfony/web-server-bundle ###
 /.web-server-pid
 ###< symfony/web-server-bundle ###
+/.idea/.gitignore
+/.idea/encodings.xml
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
